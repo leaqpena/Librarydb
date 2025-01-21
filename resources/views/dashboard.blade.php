@@ -85,10 +85,10 @@
                   <div class="col-sm-5 text-center text-sm-left">
                     <div class="card-body pb-0 px-0 px-md-6">
                       <img
-                        src="../assets/img/illustrations/man-with-laptop.png"
+                        src="{{asset('assets/img/illustrations/man-with-laptop.png')}}"
                         height="175"
                         class="scaleX-n1-rtl"
-                        alt="View Badge User" />
+                        />
                     </div>
               </div>
         </div>
