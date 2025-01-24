@@ -71,37 +71,41 @@
     @endif
     <!-- Edit Modal -->
 <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editBookModalLabel">Edit Book</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editBookForm" method="POST" action="{{ route('books.update', ['book' => 0]) }}">
-          @csrf
-          @method('PUT')
-          <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" required>
-          </div>
-          <div class="mb-3">
-            <label for="author" class="form-label">Author</label>
-            <input type="text" class="form-control" id="author" name="author" required>
-          </div>
-          <div class="mb-3">
-            <label for="year_published" class="form-label">Year Published</label>
-            <input type="text" class="form-control" id="year_published" name="year_published" required>
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </form>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editBookForm" method="POST" action="{{ route('books.update', ':id') }}">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookModalLabel">Edit Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="bookId" name="bookId">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="author" name="author" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="year_published" class="form-label">Year Published</label>
+                        <input type="number" class="form-control" id="year_published" name="year_published" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Existing Books Table -->
@@ -122,8 +126,7 @@
                 <td>{{ $book->year_published }}</td>
                 <td>
                     <!-- Edit Button -->
-                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editBookModal" 
-                        onclick="setEditModalData({{ $book->id }}, '{{ $book->title }}', '{{ $book->author }}', '{{ $book->year_published }}', '{{ $book->description }}')">Edit</button>
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editBookModal" onclick="setEditModalData({{ $book->id }}, '{{ $book->title }}', '{{ $book->author }}', '{{ $book->year_published }}', '{{ $book->description }}')">Edit</button>
                     <!-- Delete Form -->
                     <form action="{{ route('books.destroy', $book) }}" method="POST" style="display: inline-block;">
                         @csrf
@@ -139,11 +142,16 @@
 <script>
     // Function to populate the Edit Modal with the current book's data
     function setEditModalData(id, title, author, yearPublished, description) {
-        document.getElementById('editBookForm').action = '/books/' + id;
-        document.getElementById('title').value = title;
-        document.getElementById('author').value = author;
-        document.getElementById('year_published').value = yearPublished;
-        document.getElementById('description').value = description;
-    }
+    document.getElementById('bookId').value = id;
+    document.getElementById('title').value = title;
+    document.getElementById('author').value = author;
+    document.getElementById('year_published').value = yearPublished;
+    document.getElementById('description').value = description;
+
+    const form = document.getElementById('editBookForm');
+    form.action = form.action.replace(':id', id);
+}
+
+    
 </script>
 @endsection
