@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
 
+Route::resource('books', BookController::class);
+
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 

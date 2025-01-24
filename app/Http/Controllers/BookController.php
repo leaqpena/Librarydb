@@ -12,7 +12,25 @@ class BookController extends Controller
         return view('books.index', compact('books'));
     }
 
-    
+    public function update(Request $request, $id)
+    {
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'author' => 'required|string|max:255',
+        'year_published' => 'required|integer',
+        'description' => 'required|string',
+    ]);
+
+    $book = Book::findOrFail($id);
+    $book->title = $request->input('title');
+    $book->author = $request->input('author');
+    $book->year_published = $request->input('year_published');
+    $book->description = $request->input('description');
+    $book->save();
+
+    return redirect()->back()->with('success', 'Book updated successfully.');
+    }
+
 
     public function create()
     {
@@ -40,19 +58,7 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'year_published' => 'required|integer',
-            'description' => 'nullable|string',
-        ]);
-
-        $book->update($request->all());
-        return redirect()->route('books.index')->with('success', 'Book updated successfully.');
-    }
-
+    
     public function destroy(Book $book)
     {
         $book->delete();

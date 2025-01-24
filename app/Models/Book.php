@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,10 +8,6 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'author',
-        'year_published',
-        'description',
-    ];
+    // Allow mass assignment on the following fields
+    protected $fillable = ['title', 'author', 'year_published', 'description'];
 }

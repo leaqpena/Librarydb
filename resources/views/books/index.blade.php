@@ -69,11 +69,11 @@
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-    <!-- Edit Modal -->
+   <!-- Edit Modal -->
 <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="editBookForm" method="POST" action="{{ route('books.update', ':id') }}">
+            <form id="editBookForm" method="POST" action="">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -108,7 +108,24 @@
     </div>
 </div>
 
-<!-- Existing Books Table -->
+<!-- JavaScript -->
+<script>
+    // Function to populate the Edit Modal with the current book's data
+    function setEditModalData(id, title, author, yearPublished, description) {
+        // Set the action URL dynamically
+        const form = document.getElementById('editBookForm');
+        form.action = '/books/' + id; // Adjust based on your route setup
+
+        // Populate the input fields
+        document.getElementById('bookId').value = id;
+        document.getElementById('title').value = title;
+        document.getElementById('author').value = author;
+        document.getElementById('year_published').value = yearPublished;
+        document.getElementById('description').value = description;
+    }
+</script>
+
+<!-- Books Table -->
 <table class="table">
     <thead>
         <tr>
@@ -125,8 +142,10 @@
                 <td>{{ $book->author }}</td>
                 <td>{{ $book->year_published }}</td>
                 <td>
-                    <!-- Edit Button -->
-                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editBookModal" onclick="setEditModalData({{ $book->id }}, '{{ $book->title }}', '{{ $book->author }}', '{{ $book->year_published }}', '{{ $book->description }}')">Edit</button>
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editBookModal" 
+                    onclick="setEditModalData({{ $book->id }}, '{{ $book->title }}', '{{ $book->author }}', '{{ $book->year_published }}', '{{ $book->description }}')">
+                    Edit
+                </button>
                     <!-- Delete Form -->
                     <form action="{{ route('books.destroy', $book) }}" method="POST" style="display: inline-block;">
                         @csrf
@@ -140,16 +159,17 @@
 </table>
 
 <script>
-    // Function to populate the Edit Modal with the current book's data
-    function setEditModalData(id, title, author, yearPublished, description) {
+   function setEditModalData(id, title, author, yearPublished, description) {
+    // Set the action URL dynamically
+    const form = document.getElementById('editBookForm');
+    form.action = '/books/' + id; // Adjust based on your route setup
+
+    // Populate the input fields
     document.getElementById('bookId').value = id;
     document.getElementById('title').value = title;
     document.getElementById('author').value = author;
     document.getElementById('year_published').value = yearPublished;
     document.getElementById('description').value = description;
-
-    const form = document.getElementById('editBookForm');
-    form.action = form.action.replace(':id', id);
 }
 
     

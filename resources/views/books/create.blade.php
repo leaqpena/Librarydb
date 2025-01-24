@@ -62,27 +62,30 @@
                 </li>
           </ul>
         </aside>
-<div class="container">
-    <h1>Add Book</h1>
-    <form action="{{ route('books.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label>Title</label>
-            <input type="text" name="title" class="form-control" required>
+<form action="{{ route('books.store') }}" method="POST">
+    @csrf
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
         </div>
-        <div class="form-group">
-            <label>Author</label>
-            <input type="text" name="author" class="form-control" required>
+        <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" class="form-control" id="author" name="author" required>
         </div>
-        <div class="form-group">
-            <label for="year_published">Year Published</label>
-            <input class="form-control" type="number" name="year_published" id="year_published" value="{{ old('year_published') }}" required>
+        <div class="mb-3">
+            <label for="year_published" class="form-label">Year Published</label>
+            <input type="number" class="form-control" id="year_published" name="year_published" required>
         </div>
-        <div class="form-group">
-            <label>Description</label>
-            <textarea name="description" class="form-control"></textarea>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Add</button>
-    </form>
-</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save Book</button>
+    </div>
+</form>
+
 @endsection
